@@ -1,0 +1,38 @@
+[gd_scene load_steps=6 format=3 uid="uid://cmc0nmyitt0xs"]
+
+[ext_resource type="Texture2D" uid="uid://knqsiaufjjiq" path="res://Assets/Board.jpg" id="1_dbjvr"]
+[ext_resource type="Script" uid="uid://bomrsu4sba6q0" path="res://Scripts/cork_board.gd" id="1_htk6s"]
+[ext_resource type="Script" uid="uid://cir73cbhb7dy8" path="res://Scripts/photos_manager.gd" id="3_2qvkj"]
+[ext_resource type="Texture2D" uid="uid://b1o3px5kuvlnj" path="res://Assets/Page.jpg" id="4_t4nec"]
+[ext_resource type="Script" uid="uid://cp2ry2clsbkn6" path="res://Scripts/Notes_Manager.gd" id="5_kn7jk"]
+
+[node name="LogicWorld" type="Node2D"]
+script = ExtResource("1_htk6s")
+
+[node name="CorkBoard" type="Sprite2D" parent="."]
+scale = Vector2(0.855705, 0.887205)
+texture = ExtResource("1_dbjvr")
+offset = Vector2(447, 297)
+
+[node name="Notes_Manager" type="Sprite2D" parent="."]
+position = Vector2(964, 258)
+scale = Vector2(0.452519, 0.428014)
+texture = ExtResource("4_t4nec")
+script = ExtResource("5_kn7jk")
+
+[node name="PhotosManager" type="Node2D" parent="."]
+script = ExtResource("3_2qvkj")
+
+[node name="SpawnPicture" type="Button" parent="."]
+offset_left = 938.0
+offset_top = 542.0
+offset_right = 1001.0
+offset_bottom = 596.0
+scale = Vector2(2.29092, 1.78244)
+text = "Create 
+Picture"
+
+[node name="YarnHolder" type="Node2D" parent="."]
+
+[connection signal="pressed" from="SpawnPicture" to="." method="_on_spawn_picture_pressed"]
+[connection signal="pressed" from="SpawnPicture" to="CorkBoard" method="_on_spawn_picture_pressed"]

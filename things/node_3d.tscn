@@ -1,0 +1,141 @@
+[gd_scene load_steps=17 format=3 uid="uid://d1rwbl5ertt6p"]
+
+[ext_resource type="PackedScene" uid="uid://cmc0nmyitt0xs" path="res://things/Logic_World.tscn" id="1_xbvly"]
+[ext_resource type="Texture2D" uid="uid://bduflgmqd3hs7" path="res://Assets/227px-Bendy.png" id="2_cvxw2"]
+[ext_resource type="Script" uid="uid://bn06lp34tgfpw" path="res://things/player_movement.gd" id="2_waan7"]
+[ext_resource type="Texture2D" uid="uid://ekicfwi2vr88" path="res://Assets/guy.png" id="4_vqjqq"]
+[ext_resource type="Script" uid="uid://ytbw4j5drak7" path="res://things/object_manager.gd" id="6_d4p51"]
+[ext_resource type="Texture2D" uid="uid://dlyc4xkre2ff5" path="res://Assets/lamp-png-34921.png" id="7_c38vn"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_r13nr"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_cvxw2"]
+size = Vector3(2, 0, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_waan7"]
+size = Vector3(0.227, 0.374, 0)
+
+[sub_resource type="BoxMesh" id="BoxMesh_waan7"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_vqjqq"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_26lss"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_26lss"]
+albedo_color = Color(0.45388266, 0.14201829, 0.024929637, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_j7rvj"]
+material = SubResource("StandardMaterial3D_26lss")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_d4p51"]
+size = Vector3(0.1, 0.17, 0.001)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_j7rvj"]
+size = Vector3(1.1901485, 2.9530663, 0.001)
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Floor" type="StaticBody3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
+mesh = SubResource("PlaneMesh_r13nr")
+skeleton = NodePath("../..")
+
+[node name="floorMesh" type="CollisionShape3D" parent="Floor"]
+shape = SubResource("BoxShape3D_cvxw2")
+
+[node name="LogicWorld" parent="." instance=ExtResource("1_xbvly")]
+visible = false
+
+[node name="CameraPivot" type="Node3D" parent="."]
+
+[node name="HeadPivot" type="Node3D" parent="CameraPivot"]
+transform = Transform3D(1, 0, 0, 0, 0.9487768, 0.31594715, 0, -0.31594715, 0.9487768, 0, 0.723, 1.5)
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot/HeadPivot"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="CameraPivot/HeadPivot/Camera3D"]
+
+[node name="CameraFocus" type="RayCast3D" parent="CameraPivot/HeadPivot/Camera3D"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+collision_mask = 2
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="player" type="CharacterBody3D" parent="." node_paths=PackedStringArray("cameraPivot", "logic")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6964643, 0)
+script = ExtResource("2_waan7")
+cameraPivot = NodePath("../CameraPivot")
+logic = NodePath("../LogicWorld")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="player"]
+shape = SubResource("BoxShape3D_waan7")
+
+[node name="Sprite3D" type="Sprite3D" parent="player"]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
+texture = ExtResource("2_cvxw2")
+
+[node name="walls" type="CSGMesh3D" parent="."]
+transform = Transform3D(1.999, 0, 0, 0, 1, 0, 0, 0, 1.999, 0, 0.5, 0)
+flip_faces = true
+mesh = SubResource("BoxMesh_waan7")
+
+[node name="WallEyes" type="CSGMesh3D" parent="walls"]
+transform = Transform3D(0.999, 0, 0, 0, 1, 0, 0, 0, 0.999, 0, 0, 0)
+operation = 2
+mesh = SubResource("BoxMesh_vqjqq")
+
+[node name="ObjectManager" type="Node3D" parent="." node_paths=PackedStringArray("camera")]
+script = ExtResource("6_d4p51")
+camera = NodePath("../CameraPivot/HeadPivot/Camera3D")
+
+[node name="small Table" type="StaticBody3D" parent="ObjectManager"]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0.733417, 0.061028063, -0.35081565)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ObjectManager/small Table"]
+shape = SubResource("BoxShape3D_26lss")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ObjectManager/small Table"]
+mesh = SubResource("BoxMesh_j7rvj")
+
+[node name="Area3D" type="Area3D" parent="ObjectManager/small Table" groups=["obj", "simpleTable"]]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="ObjectManager/small Table/Area3D"]
+shape = SubResource("BoxShape3D_26lss")
+
+[node name="Lamp" type="StaticBody3D" parent="ObjectManager" groups=["2Dobj"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.73745865, 0.1984607, -0.34602726)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ObjectManager/Lamp"]
+shape = SubResource("BoxShape3D_d4p51")
+
+[node name="Sprite3D" type="Sprite3D" parent="ObjectManager/Lamp"]
+transform = Transform3D(0.005, 0, 0, 0, 0.005, 0, 0, 0, 0.005, 0, 0, 0)
+texture = ExtResource("7_c38vn")
+
+[node name="Area3D" type="Area3D" parent="ObjectManager/Lamp" groups=["obj", "simpleLamp"]]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="ObjectManager/Lamp/Area3D"]
+shape = SubResource("BoxShape3D_d4p51")
+
+[node name="npc" type="StaticBody3D" parent="ObjectManager" groups=["2Dobj", "npc"]]
+transform = Transform3D(0.17, 0, 0, 0, 0.17, 0, 0, 0, 0.17, -0.72508705, 0.25840032, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ObjectManager/npc"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0045113564, 0.018464208, 0)
+shape = SubResource("BoxShape3D_j7rvj")
+
+[node name="Sprite3D" type="Sprite3D" parent="ObjectManager/npc"]
+texture = ExtResource("4_vqjqq")
+
+[node name="Area3D" type="Area3D" parent="ObjectManager/npc" groups=["obj", "simpleMan"]]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ObjectManager/npc/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0045113564, 0.018464208, 0)
+shape = SubResource("BoxShape3D_j7rvj")

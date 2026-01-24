@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://c80eyxj1rxe83"]
+
+[ext_resource type="Script" uid="uid://c2ug7cjihyrxf" path="res://Scripts/yarn.gd" id="1_uol5x"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5ke5u"]
+
+[node name="Yarn" type="Node2D"]
+script = ExtResource("1_uol5x")
+
+[node name="Draw" type="Line2D" parent="."]
+points = PackedVector2Array(0, 0, 0, 0)
+width = 5.0
+default_color = Color(1, 0, 0, 1)
+
+[node name="String" type="Area2D" parent="."]
+scale = Vector2(1, 0.25)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="String"]
+shape = SubResource("RectangleShape2D_5ke5u")
+
+[connection signal="mouse_entered" from="String" to="." method="_on_string_mouse_entered"]
+[connection signal="mouse_exited" from="String" to="." method="_on_string_mouse_exited"]

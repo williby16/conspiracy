@@ -1,0 +1,56 @@
+[gd_scene load_steps=5 format=3 uid="uid://dpycu42500u6s"]
+
+[ext_resource type="Texture2D" uid="uid://b1o3px5kuvlnj" path="res://Assets/Page.jpg" id="1_48plp"]
+[ext_resource type="Script" uid="uid://dxfipbvee5r8" path="res://things/note_taker.gd" id="1_iei66"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_iei66"]
+size = Vector2(321, 36)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nunx5"]
+size = Vector2(386, 459)
+
+[node name="NoteTaker" type="Node2D" groups=["NotePage"]]
+script = ExtResource("1_iei66")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, 2)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_48plp")
+
+[node name="TextEdit" type="TextEdit" parent="."]
+offset_left = -192.0
+offset_top = -211.0
+offset_right = 191.5
+offset_bottom = 252.0
+mouse_filter = 1
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 50
+placeholder_text = "Type your Notes Here!"
+wrap_mode = 1
+caret_blink = true
+
+[node name="Button" type="Button" parent="."]
+offset_left = 131.0
+offset_top = -249.0
+offset_right = 149.0
+offset_bottom = -218.0
+scale = Vector2(3.40443, 1.16476)
+text = "X"
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-31.5, -230)
+shape = SubResource("RectangleShape2D_iei66")
+
+[node name="Ingorer" type="Area2D" parent="." groups=["ignore"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ingorer"]
+position = Vector2(-1, 19.5)
+shape = SubResource("RectangleShape2D_nunx5")
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
+[connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="Area2D" to="." method="_on_area_2d_mouse_exited"]
+[connection signal="mouse_entered" from="Ingorer" to="." method="_on_ingorer_mouse_entered"]
+[connection signal="mouse_exited" from="Ingorer" to="." method="_on_ingorer_mouse_exited"]

@@ -1,0 +1,52 @@
+[gd_scene load_steps=6 format=3 uid="uid://p6638u6i5qec"]
+
+[ext_resource type="Script" uid="uid://bpv8g10rd4eje" path="res://Scripts/photo.gd" id="1_h40t0"]
+[ext_resource type="Texture2D" uid="uid://euauphv5jw71" path="res://Assets/Photo2.jpg" id="2_3lq1l"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7aikl"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_icuxx"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bq58r"]
+size = Vector2(29.6055, 26.5934)
+
+[node name="Photo" type="Node2D" groups=["Photo"]]
+script = ExtResource("1_h40t0")
+
+[node name="Sprite2D" type="Sprite2D" parent="." groups=["PhotoOver"]]
+texture = ExtResource("2_3lq1l")
+
+[node name="Draggable Space" type="Area2D" parent="."]
+position = Vector2(0, -22)
+scale = Vector2(7.95965, 7.27179)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Draggable Space"]
+shape = SubResource("RectangleShape2D_7aikl")
+
+[node name="Yarn Space" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Yarn Space"]
+position = Vector2(-1, 74)
+scale = Vector2(-7.87016, 1.92653)
+shape = SubResource("RectangleShape2D_icuxx")
+
+[node name="Whole Picture" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Whole Picture"]
+position = Vector2(-2.86102e-06, 0.500001)
+scale = Vector2(5.26929, 7.10704)
+shape = SubResource("RectangleShape2D_bq58r")
+
+[node name="objName" type="RichTextLabel" parent="."]
+offset_left = -76.0
+offset_top = 54.0
+offset_right = 78.0
+offset_bottom = 95.0
+mouse_filter = 2
+
+[connection signal="mouse_entered" from="Draggable Space" to="." method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="Draggable Space" to="." method="_on_area_2d_mouse_exited"]
+[connection signal="mouse_entered" from="Yarn Space" to="." method="_on_yarn_space_mouse_entered"]
+[connection signal="mouse_exited" from="Yarn Space" to="." method="_on_yarn_space_mouse_exited"]
+[connection signal="mouse_entered" from="Whole Picture" to="." method="_on_whole_picture_mouse_entered"]
+[connection signal="mouse_exited" from="Whole Picture" to="." method="_on_whole_picture_mouse_exited"]
