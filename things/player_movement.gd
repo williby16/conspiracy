@@ -50,10 +50,11 @@ func _process(_delta): # _ tells the linter I dont mean to use it
 			logic.activate();
 			inLogic = true;
 		else:
-			if looking:
-				Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-			logic.deactivate();
-			inLogic = false;
+			if not logic.is_focused():
+				if looking:
+					Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+				logic.deactivate();
+				inLogic = false;
 	if not inLogic:
 		# user input to rotation degrees
 		if Input.is_action_just_pressed("ui_right") and not looking:
@@ -128,11 +129,6 @@ func resize_image(img):
 	w-=diff
 
 	img = img.get_region(Rect2i(diff/2, 0, w, h))
-
-	#img.crop(w, h)
-	#img.flip_x()
-	#img.crop(w-diff, h)
-	#img.flip_x()
 
 	img.resize(125, 125)
 

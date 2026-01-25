@@ -18,10 +18,23 @@ func _ready() -> void:
 	for i in evidence:
 		addPhoto(i);
 
+func is_focused():
+	for notes_manager in get_children():
+		if notes_manager.name == "Notes_Manager":
+			for listobj in notes_manager.get_children():
+				for note_taker in listobj.get_children():
+					if note_taker.name == "NoteTaker":
+						for textedit in note_taker.get_children():
+							if textedit.name == "TextEdit":
+								return textedit.has_focus();
+	return false
+
 # logic.add_pic(camView.get_collider(), img);
 func add_pic(obj, img):
 	var myPhoto = PHOTO.instantiate();
 	var nameID = obj.get_groups()[1]
+	if nameID in photoIDs: # only 1 photo of an object
+		return
 	# make sure photos not already in use?
 	# set photo image
 	#format img here?

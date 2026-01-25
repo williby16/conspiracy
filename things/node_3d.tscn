@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://d1rwbl5ertt6p"]
+[gd_scene load_steps=18 format=3 uid="uid://d1rwbl5ertt6p"]
 
 [ext_resource type="PackedScene" uid="uid://cmc0nmyitt0xs" path="res://things/Logic_World.tscn" id="1_xbvly"]
 [ext_resource type="Texture2D" uid="uid://bduflgmqd3hs7" path="res://Assets/227px-Bendy.png" id="2_cvxw2"]
@@ -11,6 +11,8 @@
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_cvxw2"]
 size = Vector3(2, 0, 2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_c38vn"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_waan7"]
 size = Vector3(0.227, 0.374, 0)
@@ -67,6 +69,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6964643, 0)
 script = ExtResource("2_waan7")
 cameraPivot = NodePath("../CameraPivot")
 logic = NodePath("../LogicWorld")
+
+[node name="CameraReticle" type="Node2D" parent="player"]
+
+[node name="reticle" type="MeshInstance2D" parent="player/CameraReticle"]
+visible = false
+position = Vector2(549, 293)
+scale = Vector2(50, 50)
+mesh = SubResource("BoxMesh_c38vn")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="player"]
 shape = SubResource("BoxShape3D_waan7")
