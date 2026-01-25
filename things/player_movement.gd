@@ -45,9 +45,13 @@ func _ready():
 func _process(_delta): # _ tells the linter I dont mean to use it
 	if Input.is_action_just_pressed("space"):
 		if not inLogic:
+			if looking:
+				Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 			logic.activate();
 			inLogic = true;
 		else:
+			if looking:
+				Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 			logic.deactivate();
 			inLogic = false;
 	if not inLogic:
@@ -114,6 +118,27 @@ func move(delta, spd, dirMod):
 	velocity = target_velocity
 	move_and_slide()
 
+func resize_image(img):
+	# resize a viewport image to fit within the poloroid!
+	# FIRST, make it a square
+	var w = img.data["width"]
+	var h = img.data['height']
+
+	var diff = w-h
+	w-=diff
+
+	img = img.get_region(Rect2i(diff/2, 0, w, h))
+
+	#img.crop(w, h)
+	#img.flip_x()
+	#img.crop(w-diff, h)
+	#img.flip_x()
+
+	img.resize(125, 125)
+
+	return img
+
+
 func _physics_process(delta):
 	if not inLogic:
 		# poloroid logic
@@ -131,13 +156,16 @@ func _physics_process(delta):
 			if camView.is_colliding() and "obj" in camView.get_collider().get_groups():
 				if currViewing != camView.get_collider():
 					currViewing = camView.get_collider();
-				# highlight currViewing
+				# highlight currViewing TODO
 				if Input.is_action_just_pressed("left_click"):
 					var img = get_viewport().get_texture().get_image();
+					img = resize_image(img)
+					#img.save_png("user://NAME") # works without saving the image... but Ill need to save it at some point?
+					#img = Image.load_from_file("user://NAME")
 					logic.add_pic(camView.get_collider(), img);
 					#img.save_png("usr://name");
 			elif currViewing != null:
-				# unhighlight currViewing
+				# unhighlight currViewing TODO
 				currViewing = null;
 		
 		# finish rotating either way

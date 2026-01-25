@@ -22,6 +22,12 @@ func _ready() -> void:
 func add_pic(obj, img):
 	var myPhoto = PHOTO.instantiate();
 	var nameID = obj.get_groups()[1]
+	# make sure photos not already in use?
+	# set photo image
+	#format img here?
+	myPhoto.update_image(img);
+
+	# build photo
 	myPhoto.nameID = nameID;
 	myPhoto.update_name();
 	photoIDs.append(nameID);
@@ -68,7 +74,7 @@ func _on_spawn_picture_pressed() -> void:
 	nullPhotos += 1;
 	addPhoto("NULL" + str(nullPhotos));
 	
-func addPhoto(nameID : String) -> void:
+func addPhoto(nameID : String) -> void: # update this for image useage (this will reload photos eventually)
 	var myPhoto = PHOTO.instantiate();
 	myPhoto.nameID = nameID;
 	photoIDs.append(nameID);

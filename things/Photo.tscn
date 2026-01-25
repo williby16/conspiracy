@@ -44,6 +44,8 @@ offset_right = 78.0
 offset_bottom = 95.0
 mouse_filter = 2
 
+[node name="image" type="Sprite2D" parent="."]
+
 [connection signal="mouse_entered" from="Draggable Space" to="." method="_on_area_2d_mouse_entered"]
 [connection signal="mouse_exited" from="Draggable Space" to="." method="_on_area_2d_mouse_exited"]
 [connection signal="mouse_entered" from="Yarn Space" to="." method="_on_yarn_space_mouse_entered"]

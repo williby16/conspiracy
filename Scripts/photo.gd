@@ -36,6 +36,10 @@ func _process(delta: float) -> void:
 func update_name():
 	$objName.append_text("[color=black]"+ nameID +"[/color]")
 
+func update_image(img: Image):
+	var newTexture = ImageTexture.create_from_image(img)
+	$image.texture = newTexture;
+
 #drag
 func drag_logic(delta: float) -> void:
 	if (draggable && Input.is_action_just_pressed("left_click")) || dragging:
