@@ -7,7 +7,7 @@ extends CharacterBody3D
 
 # get the camera
 # ts probably not the best lmao
-@export var cameraPivot : Node3D
+@onready var cameraPivot = get_child(0)
 @onready var camera = cameraPivot.get_child(0)
 @onready var trueCamera = camera.get_child(0)
 @onready var camView = trueCamera.get_child(1) # should be CameraFocus
@@ -28,9 +28,6 @@ var rotateDir : int;
 var rotationSpeed = 10;
 
 # variables for poloroid mode
-var looking = false;
-var justLooked = false;
-var stopLooking = false;
 @onready var prevCamPos = camera.position;
 @onready var prevCamRot = camera.rotation;
 @onready var targetPosition = camera.position;
@@ -40,47 +37,30 @@ var currViewing : Area3D = null;
 var SENSITIVITY = 0.0025
 
 func _ready():
-	camView.enabled = false;
+	camView.enabled = false; # IMPORTANT, WHAT ALLOWS FOR PICTURES
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED) #debug
+	camView.enabled = true; # test debug
 
 func _process(_delta): # _ tells the linter I dont mean to use it
 	if Input.is_action_just_pressed("space"):
 		if not inLogic:
-			if looking:
-				Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 			logic.activate();
 			inLogic = true;
 		else:
 			if not logic.is_focused():
-				if looking:
-					Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+				Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 				logic.deactivate();
 				inLogic = false;
 	if not inLogic:
-		# user input to rotation degrees
-		if Input.is_action_just_pressed("ui_right") and not looking:
-			targetRotation += deg_to_rad(90)
-		elif Input.is_action_just_pressed("ui_left") and not looking:
-				targetRotation -= deg_to_rad(90);
-		# THIS FIX DOES NOT WORK TODO TECHNICALLY PRONE TO INTERGER OVERFLOWS!!!!!
-		#if targetRotation == deg_to_rad(360) or targetRotation == deg_to_rad(-360):
-		#	rotateDir = targetRotation/deg_to_rad(360); # should be either 1 or -1 # idk if Ill use this yet!
-		#	targetRotation = 0;
-		
-		if Input.is_action_just_pressed("ui_up") and not looking:
-			looking = true;
-			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-			justLooked = true;
+		# put up and down camera!
+		if Input.is_action_just_pressed("ui_up"):
 			camView.enabled = true;
-		elif Input.is_action_just_pressed("ui_down") and looking:
-			sprite.show()
-			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-			looking = false;
-			stopLooking = true;
+		elif Input.is_action_just_pressed("ui_down"):
 			camView.enabled = false;
-			#justLooked = true;
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventMouseMotion and looking and not inLogic:
+	if event is InputEventMouseMotion and not inLogic:
 		camera.rotate_y(-event.relative.x * SENSITIVITY)
 		trueCamera.rotate_x(-event.relative.y * SENSITIVITY)
 		trueCamera.rotation.x = clamp(trueCamera.rotation.x, deg_to_rad(-40), deg_to_rad(60))
@@ -138,62 +118,27 @@ func resize_image(img):
 func _physics_process(delta):
 	if not inLogic:
 		# poloroid logic
-		if looking:
-			if justLooked:
-				sprite.hide()
-				targetPosition = global_position # unused now since we lerp to global_position
-				justLooked = false
-				#camera.rotation = Vector3.ZERO # idk if I like this effect
-			camera.global_position = camera.global_position.lerp(global_position, rotationSpeed * delta) 
-			move(delta, speed/3, looking)
+		#targetPosition = global_position # unused now since we lerp to global_position
+		#camera.global_position = camera.global_position.lerp(global_position, rotationSpeed * delta) 
+		move(delta, speed, true)
 			# camera follow mouse
 			# maybe make it so your still able to move, just slower
 			# raycast logic
-			if camView.is_colliding() and "obj" in camView.get_collider().get_groups():
-				if currViewing != camView.get_collider():
-					currViewing = camView.get_collider();
-				# highlight currViewing TODO
-				if Input.is_action_just_pressed("left_click"):
-					var img = get_viewport().get_texture().get_image();
-					img = resize_image(img)
-					#img.save_png("user://NAME") # works without saving the image... but Ill need to save it at some point?
-					#img = Image.load_from_file("user://NAME")
-					logic.add_pic(camView.get_collider(), img);
-					#img.save_png("usr://name");
-			elif currViewing != null:
-				# unhighlight currViewing TODO
-				currViewing = null;
+		if camView.is_colliding() and "obj" in camView.get_collider().get_groups():
+			if currViewing != camView.get_collider():
+				currViewing = camView.get_collider();
+			# highlight currViewing TODO
+			if Input.is_action_just_pressed("left_click"):
+				var img = get_viewport().get_texture().get_image();
+				img = resize_image(img)
+				#img.save_png("user://NAME") # works without saving the image... but Ill need to save it at some point?
+				#img = Image.load_from_file("user://NAME")
+				logic.add_pic(camView.get_collider(), img);
+				#img.save_png("usr://name");
+		elif currViewing != null:
+			# unhighlight currViewing TODO
+			currViewing = null;
 		
 		# finish rotating either way
-		cameraPivot.rotation.y = lerp_angle(cameraPivot.rotation.y, targetRotation, rotationSpeed * delta)
-		
-		if not looking and not stopLooking:
-			# make sure to fix camera transform
-			camera.position = camera.position.lerp(prevCamPos, rotationSpeed * delta)
-			# still fix these just in case.
-			camera.rotation = prevCamRot # lerp y and (z or x) prolly
-			trueCamera.rotation = Vector3.ZERO # don't actually rotate this camera
-			# camera and player rotation
-			rotation.y = lerp_angle(rotation.y, targetRotation, rotationSpeed * delta)
-			move(delta, speed, looking)
-			
-		elif stopLooking:
-			stopLooking = false
-			var currRot = camera.global_rotation.y;
-			# lets to operations in degrees...
-			currRot = rad_to_deg(currRot);
-			# make sure the pivot is pointed in the last direction the player was looking locked into a certain angle
-			if (currRot <= 45) and (currRot >= -45): # <= because lets favor 0 
-				currRot = 0;
-			elif (currRot > 45) and (currRot < 135): # 90
-				currRot = 90
-			elif (currRot < -45) and (currRot > -135): # -90
-				currRot = -90
-			elif (currRot >= 135) or (currRot <= -135): # <= because lets favor 180/-180
-				currRot = 180 # 180 and -180 should be equal!
-			# back to radians
-			cameraPivot.rotation.y = deg_to_rad(currRot);
-			# need to lock this in to degrees...
-			targetRotation = cameraPivot.rotation.y # added benifit of resetting the rotation # lets do operations in degrees...
-			camera.global_position = global_position # fix the camera since its position was displaced when we changed the pivot rotation!
+		#cameraPivot.rotation.y = lerp_angle(cameraPivot.rotation.y, targetRotation, rotationSpeed * delta)
 		

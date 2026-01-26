@@ -49,26 +49,26 @@ shape = SubResource("BoxShape3D_cvxw2")
 [node name="LogicWorld" parent="." instance=ExtResource("1_xbvly")]
 visible = false
 
-[node name="CameraPivot" type="Node3D" parent="."]
+[node name="player" type="CharacterBody3D" parent="." node_paths=PackedStringArray("logic")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6964643, 0)
+script = ExtResource("2_waan7")
+logic = NodePath("../LogicWorld")
 
-[node name="HeadPivot" type="Node3D" parent="CameraPivot"]
-transform = Transform3D(1, 0, 0, 0, 0.9487768, 0.31594715, 0, -0.31594715, 0.9487768, 0, 0.723, 1.5)
+[node name="CameraPivot" type="Node3D" parent="player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.6964643, 0)
 
-[node name="Camera3D" type="Camera3D" parent="CameraPivot/HeadPivot"]
+[node name="HeadPivot" type="Node3D" parent="player/CameraPivot"]
+transform = Transform3D(1, 0, 0, 0, 0.9487768, 0.31594715, 0, -0.31594715, 0.9487768, 0, 0.696, 0)
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="CameraPivot/HeadPivot/Camera3D"]
+[node name="Camera3D" type="Camera3D" parent="player/CameraPivot/HeadPivot"]
 
-[node name="CameraFocus" type="RayCast3D" parent="CameraPivot/HeadPivot/Camera3D"]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="player/CameraPivot/HeadPivot/Camera3D"]
+
+[node name="CameraFocus" type="RayCast3D" parent="player/CameraPivot/HeadPivot/Camera3D"]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
 collision_mask = 2
 collide_with_areas = true
 collide_with_bodies = false
-
-[node name="player" type="CharacterBody3D" parent="." node_paths=PackedStringArray("cameraPivot", "logic")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6964643, 0)
-script = ExtResource("2_waan7")
-cameraPivot = NodePath("../CameraPivot")
-logic = NodePath("../LogicWorld")
 
 [node name="CameraReticle" type="Node2D" parent="player"]
 
@@ -97,7 +97,7 @@ mesh = SubResource("BoxMesh_vqjqq")
 
 [node name="ObjectManager" type="Node3D" parent="." node_paths=PackedStringArray("camera")]
 script = ExtResource("6_d4p51")
-camera = NodePath("../CameraPivot/HeadPivot/Camera3D")
+camera = NodePath("../player/CameraPivot/HeadPivot/Camera3D")
 
 [node name="small Table" type="StaticBody3D" parent="ObjectManager"]
 transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0.733417, 0.061028063, -0.35081565)
