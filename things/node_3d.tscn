@@ -58,7 +58,7 @@ logic = NodePath("../LogicWorld")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.6964643, 0)
 
 [node name="HeadPivot" type="Node3D" parent="player/CameraPivot"]
-transform = Transform3D(1, 0, 0, 0, 0.9487768, 0.31594715, 0, -0.31594715, 0.9487768, 0, 0.696, 0)
+transform = Transform3D(1, 0, 0, 0, 0.9487768, 0.31594715, 0, -0.31594715, 0.9487768, 0, 0.8, 0)
 
 [node name="Camera3D" type="Camera3D" parent="player/CameraPivot/HeadPivot"]
 
@@ -142,7 +142,7 @@ shape = SubResource("BoxShape3D_j7rvj")
 [node name="Sprite3D" type="Sprite3D" parent="ObjectManager/npc"]
 texture = ExtResource("4_vqjqq")
 
-[node name="Area3D" type="Area3D" parent="ObjectManager/npc" groups=["obj", "simpleMan"]]
+[node name="Area3D" type="Area3D" parent="ObjectManager/npc" groups=["npc", "obj", "simpleMan"]]
 collision_layer = 2
 collision_mask = 2
 

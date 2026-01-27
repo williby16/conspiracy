@@ -2,8 +2,11 @@ extends CharacterBody3D
 
 # How fast the player moves in meters per second.
 @export var speed = 1.0
+#@onready var spd = speed;
 # The downward acceleration when in the air, in meters per second squared.
 @export var fall_acceleration = 75
+
+const chat_screen = preload("res://things/chat_screen.tscn")
 
 # get the camera
 # ts probably not the best lmao
@@ -16,6 +19,9 @@ extends CharacterBody3D
 
 @export var logic : Node2D;
 var inLogic : bool = false;
+var talking : bool = false ;
+var justTalked : bool = false ; 
+var talkingTo = null;
 
 # will change when we change directions so that movement will always be the arrow keys
 var facingX = 1;
@@ -41,26 +47,71 @@ func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED) #debug
 	camView.enabled = true; # test debug
 
+func create_chat(person):
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	var thisConvo = chat_screen.instantiate()
+	thisConvo.set_person(person)
+	get_tree().root.add_child(thisConvo)
+
+func can_move():
+	return (not(inLogic or talking))
+
 func _process(_delta): # _ tells the linter I dont mean to use it
+	if Input.is_action_just_pressed("esc"):
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+
+	# polling, maybe move stuff like this to _Input()?
 	if Input.is_action_just_pressed("space"):
-		if not inLogic:
-			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-			logic.activate();
-			inLogic = true;
+		if not inLogic: # need thesse two seprate for the else statement....
+			if not talking:
+				Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+				logic.activate();
+				inLogic = true;
 		else:
 			if not logic.is_focused():
 				Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 				logic.deactivate();
 				inLogic = false;
-	if not inLogic:
+	# polaroid logic
+	if can_move():
 		# put up and down camera!
 		if Input.is_action_just_pressed("ui_up"):
 			camView.enabled = true;
 		elif Input.is_action_just_pressed("ui_down"):
 			camView.enabled = false;
+		# picture and chat logic
+		if camView.is_colliding() and "obj" in camView.get_collider().get_groups():
+			if currViewing != camView.get_collider():
+				currViewing = camView.get_collider();
+			# highlight currViewing TODO
+			if "npc" in currViewing.get_groups():
+				#print("Press E to talk.")
+				if Input.is_action_just_pressed("E"):
+					talking = true;
+					justTalked = true;
+					create_chat(currViewing);
+			if Input.is_action_just_pressed("left_click"):
+				var img = get_viewport().get_texture().get_image();
+				img = resize_image(img)
+				#img.save_png("user://NAME") # works without saving the image... but Ill need to save it at some point?
+				#img = Image.load_from_file("user://NAME")
+				logic.add_pic(camView.get_collider(), img);
+				#img.save_png("usr://name");
+		elif currViewing != null:
+			# unhighlight currViewing TODO
+			currViewing = null;
 
+	# stop talking
+	if talking and not justTalked and Input.is_action_just_pressed("E"):
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+		talking = false;
+		justTalked = false;
+		talkingTo = null;
+	# clean up var # bad way to do this lol # but it works!
+	justTalked = false;
+	
 func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventMouseMotion and not inLogic:
+	if event is InputEventMouseMotion and can_move():
 		camera.rotate_y(-event.relative.x * SENSITIVITY)
 		trueCamera.rotate_x(-event.relative.y * SENSITIVITY)
 		trueCamera.rotation.x = clamp(trueCamera.rotation.x, deg_to_rad(-40), deg_to_rad(60))
@@ -116,7 +167,7 @@ func resize_image(img):
 
 
 func _physics_process(delta):
-	if not inLogic:
+	if can_move():
 		# poloroid logic
 		#targetPosition = global_position # unused now since we lerp to global_position
 		#camera.global_position = camera.global_position.lerp(global_position, rotationSpeed * delta) 
@@ -124,20 +175,6 @@ func _physics_process(delta):
 			# camera follow mouse
 			# maybe make it so your still able to move, just slower
 			# raycast logic
-		if camView.is_colliding() and "obj" in camView.get_collider().get_groups():
-			if currViewing != camView.get_collider():
-				currViewing = camView.get_collider();
-			# highlight currViewing TODO
-			if Input.is_action_just_pressed("left_click"):
-				var img = get_viewport().get_texture().get_image();
-				img = resize_image(img)
-				#img.save_png("user://NAME") # works without saving the image... but Ill need to save it at some point?
-				#img = Image.load_from_file("user://NAME")
-				logic.add_pic(camView.get_collider(), img);
-				#img.save_png("usr://name");
-		elif currViewing != null:
-			# unhighlight currViewing TODO
-			currViewing = null;
 		
 		# finish rotating either way
 		#cameraPivot.rotation.y = lerp_angle(cameraPivot.rotation.y, targetRotation, rotationSpeed * delta)
