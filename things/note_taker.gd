@@ -13,7 +13,7 @@ var ignore : bool = false;
 var ignoring = false;
 
 @onready var movement_manager : Node2D = get_parent().get_parent().get_parent().get_child(2); # should be a PhotosManager node...
-
+# ^ change this to get it through root?
 func set_notes_text(text: String) -> void:
 	$TextEdit.text = text;
 

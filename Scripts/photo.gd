@@ -36,6 +36,10 @@ func _process(delta: float) -> void:
 func update_name():
 	$objName.append_text("[color=black]"+ nameID +"[/color]")
 
+func get_photo_name():
+	print("hello")
+	return $objName.get_parsed_text();
+
 func update_image(img: Image):
 	var newTexture = ImageTexture.create_from_image(img)
 	$image.texture = newTexture;

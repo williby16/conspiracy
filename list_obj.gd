@@ -11,17 +11,20 @@ var currNotes : String = "";
 
 var myPage : Node2D;
 
+var currEditable = true;
+
 # load
 const page = preload("res://things/note_taker.tscn")
 
 func _process(delta: float) -> void:
 	if (clickable && Input.is_action_just_released("left_click") && able && canCreate):
-		open_notes();
+		open_notes(currEditable);
 
-func open_notes() -> void:
+func open_notes(editable) -> void:
 	#get_parent().toggle_ignore_children(); # I dontwant to use this anymore
 	canCreate = false;
 	var thisPage = page.instantiate();
+	thisPage.get_children()[1].editable = editable;
 	thisPage.top_level = true; # this will make it so it wont move with the parent, but now its position is global
 	add_child(thisPage)
 	thisPage.set_notes_text(currNotes); 

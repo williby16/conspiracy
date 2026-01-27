@@ -39,7 +39,7 @@ func can_scroll() -> bool:
 	else:
 		return false;
 
-func scroll(delta) -> void:
+func scroll(_delta) -> void:
 	if Input.is_action_just_released("scroll_up"):
 		scroll_factor -= button_height
 		redraw = true

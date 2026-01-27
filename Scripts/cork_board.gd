@@ -13,6 +13,9 @@ func activate():
 func deactivate():
 	hide();
 
+func get_evidence_and_connections():
+	return [photoIDs, alrCon]
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	for i in evidence:
@@ -32,7 +35,7 @@ func is_focused():
 # logic.add_pic(camView.get_collider(), img);
 func add_pic(obj, img):
 	var myPhoto = PHOTO.instantiate();
-	var nameID = obj.get_groups()[1]
+	var nameID = obj.get_groups()[-1]
 	if nameID in photoIDs: # only 1 photo of an object
 		return
 	# make sure photos not already in use?
@@ -49,6 +52,11 @@ func add_pic(obj, img):
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
+	#debug
+	if Input.is_action_just_pressed("left"):
+		print(photoIDs)
+		print(evidence)
+		print(alrCon)
 	update_lines();
 
 func logic_connect(photo1 : Node2D, photo2 : Node2D) -> void:

@@ -1,5 +1,7 @@
 extends Node2D
 
+const argue_menu = preload("res://things/evidence_picker.tscn")
+
 var id : String;
 
 var conversation = null
@@ -53,20 +55,25 @@ func _on_left_pressed() -> void:
 func argue():
 	arguing = true;
 	var logic = get_parent().get_child(1); # SHOULD be logic world # maybe run this within
-	# fetch curr loigc evidence
-	# prompt argue menu
-	# display argue text??? or handle that within argue menue?
+	var this_menu = argue_menu.instantiate();
+	this_menu.logic = logic;
+	add_child(this_menu);
+
+func resolve_argue(results):
+	stop_argue()
 
 func stop_argue():
 	arguing = false;
 
 func _input(_event: InputEvent) -> void:
+	if Input.is_action_just_pressed("E"): # maybe?
+		queue_free();
 	if not arguing:
 		if Input.is_action_just_pressed("Q"):
 			argue()
-		if Input.is_action_just_pressed("E"):
-			queue_free();
 		if Input.is_action_just_pressed("left"):
 			_on_left_pressed();
 		if Input.is_action_just_pressed("right"):
 			_on_right_pressed();
+	elif arguing and Input.is_action_just_pressed("Q"):
+		stop_argue();
