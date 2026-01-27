@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://dmg5a3fw8wey8"]
+
+[node name="evidencePicker" type="Node2D"]
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+offset_right = 212.0
+offset_bottom = 60.0
+text = "Single"
+horizontal_alignment = 1
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="."]
+offset_left = 418.0
+offset_top = 1.0
+offset_right = 630.0
+offset_bottom = 61.0
+text = "double"
+horizontal_alignment = 1
+
+[node name="RichTextLabel3" type="RichTextLabel" parent="."]
+offset_left = 888.0
+offset_top = 6.0
+offset_right = 1100.0
+offset_bottom = 66.0
+text = "triple"
+horizontal_alignment = 1

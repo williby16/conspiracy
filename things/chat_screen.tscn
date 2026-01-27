@@ -5,10 +5,26 @@
 [node name="chatScreen" type="Node2D"]
 script = ExtResource("1_8qbse")
 
+[node name="boxes" type="Node2D" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="boxes"]
+offset_left = 2.0
+offset_top = 482.0
+offset_right = 1152.0
+offset_bottom = 647.0
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="boxes"]
+offset_top = 418.0
+offset_right = 260.0
+offset_bottom = 458.0
+color = Color(0, 0, 0, 1)
+
 [node name="Talking" type="RichTextLabel" parent="."]
 offset_top = 472.0
 offset_right = 1150.0
 offset_bottom = 644.0
+bbcode_enabled = true
 text = "Text goes here....."
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -31,6 +47,7 @@ offset_left = 9.0
 offset_top = 422.0
 offset_right = 214.0
 offset_bottom = 462.0
+bbcode_enabled = true
 text = "E - Close | Q - Argue"
 horizontal_alignment = 1
 vertical_alignment = 1

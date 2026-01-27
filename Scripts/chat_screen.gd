@@ -8,6 +8,8 @@ var currTxt : int = 0;
 
 var personObj = null;
 
+var arguing = false;
+
 func set_person(person):
 	personObj = person;
 
@@ -33,7 +35,7 @@ func set_id(ID : String):
 	id = ID;
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	pass
 
 func _on_right_pressed() -> void:
@@ -49,17 +51,22 @@ func _on_left_pressed() -> void:
 	load_text(conversation["text"][currTxt])
 
 func argue():
+	arguing = true;
+	var logic = get_parent().get_child(1); # SHOULD be logic world # maybe run this within
 	# fetch curr loigc evidence
 	# prompt argue menu
 	# display argue text??? or handle that within argue menue?
-	pass
 
-func _input(event: InputEvent) -> void:
-	if Input.is_action_just_pressed("Q"):
-		argue()
-	if Input.is_action_just_pressed("E"):
-		queue_free();
-	if Input.is_action_just_pressed("left"):
-		_on_left_pressed();
-	if Input.is_action_just_pressed("right"):
-		_on_right_pressed();
+func stop_argue():
+	arguing = false;
+
+func _input(_event: InputEvent) -> void:
+	if not arguing:
+		if Input.is_action_just_pressed("Q"):
+			argue()
+		if Input.is_action_just_pressed("E"):
+			queue_free();
+		if Input.is_action_just_pressed("left"):
+			_on_left_pressed();
+		if Input.is_action_just_pressed("right"):
+			_on_right_pressed();

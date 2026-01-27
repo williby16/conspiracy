@@ -51,7 +51,7 @@ func create_chat(person):
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	var thisConvo = chat_screen.instantiate()
 	thisConvo.set_person(person)
-	get_tree().root.add_child(thisConvo)
+	get_tree().root.get_child(0).add_child(thisConvo) # child of node3D
 
 func can_move():
 	return (not(inLogic or talking))

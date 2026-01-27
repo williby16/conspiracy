@@ -100,7 +100,7 @@ func can_draw() -> void:
 	canDraw = true;
 
 #yarn
-func yarn_logic(delta : float) -> void:
+func yarn_logic(_delta : float) -> void:
 	if connectable && Input.is_action_just_pressed("left_click"):
 		if (get_parent().canConnect()):
 			get_parent().YarnConnect(self);
