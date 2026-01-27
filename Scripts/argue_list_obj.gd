@@ -35,3 +35,9 @@ func notify_removal() -> void:
 
 func log_notes(catch) -> void: # catch cleanup from other usage!
 	return
+
+
+# need a funciton to tell when the mouse is within the box
+
+# need a function that when the mouse is in the box and it clicks, it tells the parent it was clicked 
+# (and probly gives it its tags)
