@@ -45,14 +45,40 @@ func build_cons_strings():
 	
 	return [myDoubles, null]
 
+# make this look more pretty lol
+# TODO Add scrolling capabillity
 func build_screen():
 	# use singles and doubles to put together the screen
 	# TODO implement photos
 	# TODO implement scrooling
 
 	# singles
-
+	var currPos = Vector2(0, 77)
+	for single in singles:
+		print(single)
+		var thisSingle = LIST_OBJ.instantiate(); # size 77 y
+		thisSingle.myID = single;
+		thisSingle.set_text(single);
+		thisSingle.position = currPos;
+		currPos.y += 77;
+		# FIGURE TS OUT::::
+		thisSingle.get_child(0).queue_free()
+		add_child(thisSingle);
+		# instantiate and give it single as an ID
 	# doubles
+	currPos = Vector2(300, 77)
+	for doubleSet in doubles:
+		var double = doubleSet[0]
+		var tsNote = doubleSet[1]
+		print(double)
+		var thisDouble = LIST_OBJ.instantiate(); # size 77 y
+		thisDouble.myID = double;
+		thisDouble.set_text(double);
+		thisDouble.notes = tsNote;
+		thisDouble.position = currPos;
+		currPos.y += 77;
+		add_child(thisDouble);
+		# instantiate and give it double as an ID and tsNote as notes
 
 	pass
 

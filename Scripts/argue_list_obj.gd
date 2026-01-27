@@ -5,6 +5,7 @@ var notes : String = "null";
 const page = preload("res://things/note_taker.tscn")
 @onready var movement_manager : Node2D = get_tree().root.get_child(0).get_child(1).get_child(2); # should be photosmanager
 var canCreate = true
+var myID;
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
