@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dmg5a3fw8wey8"]
 
-[ext_resource type="Script" uid="uid://clfeimk8o5noc" path="res://scripts/evidence_picker.gd" id="1_l4jyi"]
+[ext_resource type="Script" uid="uid://clfeimk8o5noc" path="res://Scripts/evidence_picker.gd" id="1_l4jyi"]
 
 [node name="evidencePicker" type="Node2D"]
 script = ExtResource("1_l4jyi")
@@ -12,17 +12,9 @@ text = "Single"
 horizontal_alignment = 1
 
 [node name="RichTextLabel2" type="RichTextLabel" parent="."]
-offset_left = 418.0
+offset_left = 940.0
 offset_top = 1.0
-offset_right = 630.0
+offset_right = 1152.0
 offset_bottom = 61.0
 text = "double"
-horizontal_alignment = 1
-
-[node name="RichTextLabel3" type="RichTextLabel" parent="."]
-offset_left = 888.0
-offset_top = 6.0
-offset_right = 1100.0
-offset_bottom = 66.0
-text = "triple"
 horizontal_alignment = 1

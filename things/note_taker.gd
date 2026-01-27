@@ -12,8 +12,10 @@ var myText;
 var ignore : bool = false;
 var ignoring = false;
 
-@onready var movement_manager : Node2D = get_parent().get_parent().get_parent().get_child(2); # should be a PhotosManager node...
+#@onready var movement_manager : Node2D = get_parent().get_parent().get_parent().get_child(2); # should be a PhotosManager node...
 # ^ change this to get it through root?
+@onready var movement_manager : Node2D = get_tree().root.get_child(0).get_child(1).get_child(2); # should be photosmanager
+
 func set_notes_text(text: String) -> void:
 	$TextEdit.text = text;
 
