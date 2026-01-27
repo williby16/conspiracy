@@ -27,7 +27,7 @@ func load_text(txt : String):
 	$reminder.add_text("E - Close | Q - Argue | " + str(currTxt+1) + " / " + str(conversation["text"].size()))
 
 func load_conversation(ID):
-	print(ID.get_groups())
+	#print(ID.get_groups())
 	return {
 	"text": ["Hey newbie", "Erhm learn how to play buddy", "end of conversation."],
 	"argue": [{"tag->tag": "null"}, {"tag->tag": "null"}, {"tag->tag": "null"}]
@@ -60,6 +60,8 @@ func argue():
 	add_child(this_menu);
 
 func resolve_argue(results):
+	print(results)
+	get_children()[-1].queue_free();
 	stop_argue()
 
 func stop_argue():

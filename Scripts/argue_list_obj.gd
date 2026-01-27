@@ -13,8 +13,9 @@ func _ready() -> void:
 		notes = "Fatal Error"
 
 func set_text(txt : String):
-	$txt.clear();
-	$txt.add_text(txt);
+	#$txt.clear();
+	#$txt.add_text(txt);
+	$objBut.text = txt # works for buttons!
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -30,6 +31,9 @@ func _on_button_pressed():
 		add_child(thisPage)
 		thisPage.set_notes_text(notes); 
 		thisPage.position = Vector2(400, 400);
+
+func _on_obj_but_pressed():
+	get_parent().get_parent().resolve_argue(myID)
 
 func notify_removal() -> void:
 	canCreate = true;

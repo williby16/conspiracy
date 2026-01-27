@@ -54,9 +54,10 @@ func add_pic(obj, img):
 func _process(_delta: float) -> void:
 	#debug
 	if Input.is_action_just_pressed("left"):
-		print(photoIDs)
-		print(evidence)
-		print(alrCon)
+		pass
+		#print(photoIDs)
+		#print(evidence)
+		#print(alrCon)
 	update_lines();
 
 func logic_connect(photo1 : Node2D, photo2 : Node2D) -> void:

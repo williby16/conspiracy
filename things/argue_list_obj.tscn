@@ -12,16 +12,10 @@ offset_right = 336.0
 offset_bottom = 72.0
 text = "notes"
 
-[node name="ColorRect" type="ColorRect" parent="."]
-offset_right = 261.0
-offset_bottom = 75.0
-color = Color(0, 0, 0, 1)
-
-[node name="txt" type="RichTextLabel" parent="."]
+[node name="objBut" type="Button" parent="."]
 offset_right = 258.0
-offset_bottom = 77.0
-text = "hello"
-horizontal_alignment = 1
-vertical_alignment = 1
+offset_bottom = 72.0
+text = "fatal"
 
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="objBut" to="." method="_on_obj_but_pressed"]
