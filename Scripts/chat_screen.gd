@@ -60,7 +60,7 @@ func argue():
 	add_child(this_menu);
 
 func resolve_argue(results):
-	print(results)
+	print(results) # load in new conversation for results, then change group to proper npc group
 	get_children()[-1].queue_free();
 	stop_argue()
 
