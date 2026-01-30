@@ -20,6 +20,13 @@ offset_right = 260.0
 offset_bottom = 458.0
 color = Color(0, 0, 0, 1)
 
+[node name="ColorRect3" type="ColorRect" parent="boxes"]
+offset_left = 1013.0
+offset_top = 411.0
+offset_right = 1082.0
+offset_bottom = 451.0
+color = Color(0, 0, 0, 1)
+
 [node name="Talking" type="RichTextLabel" parent="."]
 offset_top = 472.0
 offset_right = 1150.0
@@ -52,5 +59,27 @@ text = "E - Close | Q - Argue"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="conversationNum" type="RichTextLabel" parent="."]
+offset_left = 1014.0
+offset_top = 410.0
+offset_right = 1086.0
+offset_bottom = 448.0
+
+[node name="up" type="Button" parent="."]
+offset_left = 922.0
+offset_top = 411.0
+offset_right = 1008.0
+offset_bottom = 462.0
+text = "/\\"
+
+[node name="down" type="Button" parent="."]
+offset_left = 1076.0
+offset_top = 412.0
+offset_right = 1158.0
+offset_bottom = 472.0
+text = "\\/"
+
 [connection signal="pressed" from="right" to="." method="_on_right_pressed"]
 [connection signal="pressed" from="left" to="." method="_on_left_pressed"]
+[connection signal="pressed" from="up" to="." method="_on_up_pressed"]
+[connection signal="pressed" from="down" to="." method="_on_down_pressed"]

@@ -12,26 +12,51 @@ var personObj = null;
 
 var arguing = false;
 
+var currConvo = []; # this will later be loaded from a save file (ex. abdeaa)
+var currIndex = 0;
+
 func set_person(person):
 	personObj = person;
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	conversation = load_conversation(personObj)
-	load_text(conversation["text"][currTxt])
+	# idk why but it breaks if I dont return and set conversation
+	conversation = load_conversation("a")
+
+	if currConvo.size() == 0:
+		# trigger first convo
+		currConvo.append("a") # LOAD FROM FILE # save to file when queue freed
+		# call this from first convo actuall
+		load_text(conversation["text"][currTxt]) # IF FIRST TIME LOADING TEXT, LOAD THE FIRST ONE!!!
 
 func load_text(txt : String):
 	$Talking.clear()
 	$Talking.add_text(txt)
 	$reminder.clear()
 	$reminder.add_text("E - Close | Q - Argue | " + str(currTxt+1) + " / " + str(conversation["text"].size()))
+	$conversationNum.clear()
+	$conversationNum.add_text(str(currIndex+1) + " / " + str(currConvo.size()))
+
+func update_text():
+	var updt = $Talking.get_parsed_text()
+	load_text(updt)
+
 
 func load_conversation(ID):
 	#print(ID.get_groups())
-	return {
-	"text": ["Hey newbie", "Erhm learn how to play buddy", "end of conversation."],
-	"argue": [{"tag->tag": "null"}, {"tag->tag": "null"}, {"tag->tag": "null"}]
-}
+	var file = FileAccess.open("res://things/dialouge_tree.json", FileAccess.READ)
+	var content = file.get_as_text()
+	var myJSON = JSON.parse_string(content)
+	myJSON = myJSON[personObj.get_groups()[2]] # magic num should group for persons name
+	if currConvo.size() != 0:
+		currTxt = 0
+		conversation = myJSON[ID]
+		load_text(myJSON[ID]["text"][0])
+	return myJSON[ID]
+	#return {
+	#"text": ["Hey newbie", "Erhm learn how to play buddy", "end of conversation."],
+	#"argue": [{"tag->tag": "a"}, {"tag->tag": "b"}, {"tag->tag": "c"}] # letters are next conversation to load
+#}# remember where you came from
 
 func set_id(ID : String):
 	id = ID;
@@ -52,6 +77,17 @@ func _on_left_pressed() -> void:
 	currTxt -= 1
 	load_text(conversation["text"][currTxt])
 
+func _on_down_pressed() -> void:
+	if currIndex < currConvo.size()-1:
+		currIndex += 1
+		conversation = load_conversation(currConvo[currIndex])
+
+func _on_up_pressed() -> void:
+	if currIndex != 0:
+		currIndex -= 1;
+		conversation = load_conversation(currConvo[currIndex])
+
+
 func argue():
 	arguing = true;
 	var logic = get_parent().get_child(1); # SHOULD be logic world # maybe run this within
@@ -60,7 +96,15 @@ func argue():
 	add_child(this_menu);
 
 func resolve_argue(results):
-	print(results) # load in new conversation for results, then change group to proper npc group
+	#print(results) # load in new conversation for results, then change group to proper npc group
+	if conversation["argue"][currTxt]["key"] == results:
+		currConvo.append(conversation["argue"][currTxt]["result"])
+		# update text for convo number
+		# display confirm text
+	else:
+		pass
+		# play confused text
+	update_text()
 	get_children()[-1].queue_free();
 	stop_argue()
 
@@ -77,5 +121,9 @@ func _input(_event: InputEvent) -> void:
 			_on_left_pressed();
 		if Input.is_action_just_pressed("right"):
 			_on_right_pressed();
+		if Input.is_action_just_pressed("up"):
+			_on_up_pressed();
+		if Input.is_action_just_pressed("down"):
+			_on_down_pressed();
 	elif arguing and Input.is_action_just_pressed("Q"):
 		stop_argue();
