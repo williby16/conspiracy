@@ -105,10 +105,10 @@ func resolve_argue(results):
 		pass
 		# play confused text
 	update_text()
-	get_children()[-1].queue_free();
 	stop_argue()
 
 func stop_argue():
+	get_children()[-1].queue_free();
 	arguing = false;
 
 func _input(_event: InputEvent) -> void:

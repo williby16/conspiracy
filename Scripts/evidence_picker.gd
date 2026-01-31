@@ -49,8 +49,8 @@ func build_cons_strings():
 # TODO Add scrolling capabillity
 func build_screen():
 	# use singles and doubles to put together the screen
-	# TODO implement photos
-	# TODO implement scrooling
+
+	# TODO implement scrolling
 
 	# singles
 	var currPos = Vector2(0, 77)
