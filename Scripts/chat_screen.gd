@@ -152,10 +152,14 @@ func stop_argue():
 	get_children()[-1].queue_free();
 	arguing = false;
 
+func log_information():
+	player.currConvo = currConvo # tell player what our currConvo is.
+
 func _input(_event: InputEvent) -> void:
 	if not talking:
 		if Input.is_action_just_pressed("E"): # maybe?
 			player.inConvo = false; # just in queso
+			log_information()
 			queue_free();
 		if not arguing:
 			if Input.is_action_just_pressed("Q"):

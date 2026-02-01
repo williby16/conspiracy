@@ -33,6 +33,8 @@ var targetRotation = 0;
 var rotateDir : int;
 var rotationSpeed = 10;
 
+# chat_screen vars
+var currConvo = [];
 var inConvo = false;
 
 # variables for poloroid mode
@@ -52,6 +54,7 @@ func _ready():
 func create_chat(person):
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	var thisConvo = chat_screen.instantiate()
+	thisConvo.currConvo = currConvo;
 	thisConvo.set_person(person)
 	thisConvo.player = self;
 	get_tree().root.get_child(0).add_child(thisConvo) # child of node3D
