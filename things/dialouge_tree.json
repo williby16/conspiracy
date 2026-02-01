@@ -2,7 +2,7 @@
 "a": {"text":["-- initial conversation --", "Hey newbie!", "ermh learn to code buddy", "welp thats all I have to say"],
       "argue":[{"key": "simpleMan", "result": "b"}]
     },
-"b": {"text": ["-- testing --"],
+"b": {"text": ["-- testing --", "test"],
       "argue":[]},
 "c": {"text": ["-- next test. ruhhh --", "hello"]},
 "d": {},

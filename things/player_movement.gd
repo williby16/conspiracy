@@ -33,6 +33,8 @@ var targetRotation = 0;
 var rotateDir : int;
 var rotationSpeed = 10;
 
+var inConvo = false;
+
 # variables for poloroid mode
 @onready var prevCamPos = camera.position;
 @onready var prevCamRot = camera.rotation;
@@ -51,6 +53,7 @@ func create_chat(person):
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	var thisConvo = chat_screen.instantiate()
 	thisConvo.set_person(person)
+	thisConvo.player = self;
 	get_tree().root.get_child(0).add_child(thisConvo) # child of node3D
 
 func can_move():
@@ -102,7 +105,8 @@ func _process(_delta): # _ tells the linter I dont mean to use it
 			currViewing = null;
 
 	# stop talking
-	if talking and not justTalked and Input.is_action_just_pressed("E"):
+	if talking and not justTalked and Input.is_action_just_pressed("E") and not inConvo: # dont stop talking IF in a special convo type
+		inConvo = true;
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 		talking = false;
 		justTalked = false;

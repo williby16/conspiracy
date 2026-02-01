@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://yrceguq5kgbr"]
+
+[node name="chat_bubble" type="Node2D"]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -4.0
+offset_top = 522.0
+offset_right = 1157.0
+offset_bottom = 647.0
+
+[node name="text" type="RichTextLabel" parent="."]
+offset_left = -3.0
+offset_top = 526.0
+offset_right = 1159.0
+offset_bottom = 623.0
+bbcode_enabled = true
+text = "[color=black]"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name=">" type="RichTextLabel" parent="."]
+offset_left = 916.0
+offset_top = 619.0
+offset_right = 1159.0
+offset_bottom = 647.0
+bbcode_enabled = true
+text = "[color=black]press anything to continue >"
