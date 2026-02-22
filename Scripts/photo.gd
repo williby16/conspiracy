@@ -62,6 +62,7 @@ func drag_logic(delta: float) -> void:
 			makeUpDrag = false; # this fixed a problem lol idk y
 			global_position = global_position.lerp((get_global_mouse_position()-ogMouse), SPEED*delta);
 	
+	#print(makeUpDrag)
 	# if you let go of the mouse, it will stop following, but if its not caught up with the mouse yet, it will
 	if dragging && Input.is_action_just_released("left_click"):
 		dragging = false;

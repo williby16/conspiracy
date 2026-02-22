@@ -7,6 +7,7 @@ var evidence : Array = [];
 var photoIDs : Array = [];
 
 var alrCon : Array;
+#var active : bool = false;
 
 func activate():
 	show();

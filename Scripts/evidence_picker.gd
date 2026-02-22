@@ -30,6 +30,8 @@ func build_cons_strings():
 	#	var thisCon = connection[0].get_photo_name() + " -> " + connection[1].get_photo_name()
 	#	myDoubles.append(thisCon)
 	for listObj in logic.get_children()[1].get_children():
+		if listObj.get_groups().size() > 0 and "ignore" in listObj.get_groups():
+			continue; # ignroe the case for ignoring dragging
 		#var thisList = LIST_OBJ.instantiate();
 		#set position
 		#for i in range(0, 3):

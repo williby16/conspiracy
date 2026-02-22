@@ -51,7 +51,7 @@ func canConnect() -> bool:
 		return false;
 
 # main func
-func toDoLogic(delta : float) -> void:
+func toDoLogic(_delta : float) -> void:
 	
 	if (toDo.size() > 1):
 		# get the one on top, that has priority, then let handle_logic handle the rest!

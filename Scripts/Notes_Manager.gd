@@ -15,12 +15,19 @@ var canScroll : bool = true;
 
 var notes : Array = []; # later store this in a txt file # but this will be used to remember text
 
+var mouseIn = false;
+@onready var movement_manager = get_parent().get_child(2);
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass;
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(delta: float) -> void: # ts some jank but it works
+	if mouseIn and Input.is_action_pressed("left_click"):
+		movement_manager.logD(get_child(0));
+		movement_manager.logYarn(get_child(0)); # could be a possible fix, but its still buggy
+		movement_manager.YarnConnect(get_child(0));
 	# if move up move down or delete, run logic and set redraw to true
 	canScroll = can_scroll()
 	if redraw:
@@ -41,10 +48,10 @@ func can_scroll() -> bool:
 
 func scroll(_delta) -> void:
 	if Input.is_action_just_released("scroll_up"):
-		scroll_factor -= button_height
+		scroll_factor -= button_height;
 		redraw = true
 	elif Input.is_action_just_released("scroll_down"):
-		scroll_factor += button_height
+		scroll_factor += button_height;
 		redraw = true
 		
 	if (max_scroll < scroll_factor):
@@ -52,6 +59,20 @@ func scroll(_delta) -> void:
 	elif (min_scroll > scroll_factor):
 		scroll_factor = min_scroll
 	#print(scroll_factor)
+
+func _unhandled_input(event: InputEvent) -> void:
+	# scrolls WAY too much...
+	if event is InputEventPanGesture and canScroll:
+		if event.delta.y > 0:
+			scroll_factor -= abs(event.delta.y) * (button_height);
+		if event.delta.y < 0:
+			scroll_factor += abs(event.delta.y) * button_height;
+		redraw = true;
+
+	if (max_scroll < scroll_factor):
+		scroll_factor = max_scroll
+	elif (min_scroll > scroll_factor):
+		scroll_factor = min_scroll
 
 func update_connections() -> void:
 	var toRemove = [];
@@ -161,3 +182,13 @@ func toggle_ignore_children() -> void: # do this for EVERYTHING
 		scrollable = false;
 	else:
 		scrollable = true;
+
+
+
+# maybe use mouse within ranges just so this is more accurage...
+func _on_notesmanager_mouse_entered() -> void:
+	mouseIn = true;
+
+
+func _on_notesmanager_mouse_exited() -> void:
+	mouseIn = false;

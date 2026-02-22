@@ -1,0 +1,69 @@
+[gd_scene load_steps=8 format=3 uid="uid://cxwsh2yppi35o"]
+
+[ext_resource type="Script" uid="uid://bomrsu4sba6q0" path="res://Scripts/cork_board.gd" id="1_f8bn6"]
+[ext_resource type="Texture2D" uid="uid://knqsiaufjjiq" path="res://Assets/Board.jpg" id="2_vjq87"]
+[ext_resource type="Texture2D" uid="uid://b1o3px5kuvlnj" path="res://Assets/Page.jpg" id="3_grmxt"]
+[ext_resource type="Script" uid="uid://cp2ry2clsbkn6" path="res://Scripts/Notes_Manager.gd" id="4_0h8pk"]
+[ext_resource type="Script" uid="uid://cir73cbhb7dy8" path="res://Scripts/photos_manager.gd" id="5_pmyu4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2k0tm"]
+size = Vector2(769.0285, 997.63086)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kn7jk"]
+size = Vector2(889.3252, 595.12756)
+
+[node name="LogicWorld" type="Node2D"]
+script = ExtResource("1_f8bn6")
+
+[node name="Notes_Manager" type="Sprite2D" parent="."]
+position = Vector2(964, 258)
+scale = Vector2(0.452519, 0.428014)
+texture = ExtResource("3_grmxt")
+script = ExtResource("4_0h8pk")
+
+[node name="notesmanager" type="Area2D" parent="Notes_Manager"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Notes_Manager/notesmanager"]
+position = Vector2(0, 3.5045776)
+shape = SubResource("RectangleShape2D_2k0tm")
+
+[node name="PhotosManager" type="Node2D" parent="."]
+script = ExtResource("5_pmyu4")
+
+[node name="SpawnPicture" type="Button" parent="."]
+offset_left = 938.0
+offset_top = 542.0
+offset_right = 1001.0
+offset_bottom = 596.0
+scale = Vector2(2.29092, 1.78244)
+text = "Create 
+Picture"
+
+[node name="YarnHolder" type="Node2D" parent="."]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="CanvasLayer"]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="SubViewport" type="SubViewport" parent="CanvasLayer/SubViewportContainer"]
+size = Vector2i(765, 530)
+
+[node name="CorkBoard" type="Sprite2D" parent="CanvasLayer/SubViewportContainer/SubViewport"]
+scale = Vector2(0.855705, 0.887205)
+texture = ExtResource("2_vjq87")
+offset = Vector2(447, 297)
+
+[node name="corkDrag" type="Area2D" parent="CanvasLayer/SubViewportContainer/SubViewport/CorkBoard"]
+
+[node name="corkDrag" type="CollisionShape2D" parent="CanvasLayer/SubViewportContainer/SubViewport/CorkBoard/corkDrag"]
+position = Vector2(448.16846, 296.43665)
+shape = SubResource("RectangleShape2D_kn7jk")
+
+[connection signal="mouse_entered" from="Notes_Manager/notesmanager" to="Notes_Manager" method="_on_notesmanager_mouse_entered"]
+[connection signal="mouse_exited" from="Notes_Manager/notesmanager" to="Notes_Manager" method="_on_notesmanager_mouse_exited"]
+[connection signal="pressed" from="SpawnPicture" to="." method="_on_spawn_picture_pressed"]
+[connection signal="pressed" from="SpawnPicture" to="CanvasLayer/SubViewportContainer/SubViewport/CorkBoard" method="_on_spawn_picture_pressed"]
+[connection signal="mouse_entered" from="CanvasLayer/SubViewportContainer/SubViewport/CorkBoard/corkDrag" to="PhotosManager" method="_on_cork_drag_mouse_entered"]
+[connection signal="mouse_exited" from="CanvasLayer/SubViewportContainer/SubViewport/CorkBoard/corkDrag" to="PhotosManager" method="_on_cork_drag_mouse_exited"]

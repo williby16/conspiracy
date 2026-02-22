@@ -11,6 +11,14 @@ var toDo3 : Array;
 var toCon : Node2D = null;
 var disconnect : Node2D = null;
 
+var dragging : bool = false;
+var ogMouse;
+
+var SPEED = 30;
+
+var actionable = false; # jusst make photos unable to leave permieter
+
+var overNotes = false;
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -20,11 +28,17 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	# so basically, if its bigger than one, the first in the list is allowed to move, then the rest are not
 	# IF theres only one, make sure it's allowed to move
+	
+	if dragging:
+		position = get_global_mouse_position() + ogMouse;
+		get_parent().get_child(4).position = position; # should be yarmManager
+		get_parent().get_child(0).position = position; # should be corkboard
+
 	toDoLogic1(delta);
 	
 	# do the same thing for yarn:
 	toDoLogic2(delta);
-	
+
 	# hehe connections code :D
 	toDoLogic3(delta); # trust the process
 	
@@ -60,7 +74,7 @@ func canConnect() -> bool:
 
 # can move logic
 # TODO BIG NOTE :: MAKE ALL TODO LOGICS DO THE TOP LAYER NOT THE FIRST IN LIST NOTE !!! TODO # should be good lol
-func toDoLogic1(delta : float) -> void:
+func toDoLogic1(_delta : float) -> void:
 	var toDoSub = [];
 	var toDoSubSub = [];
 	if toDo.size() > 1:
@@ -207,3 +221,53 @@ func toDoLogic3(delta : float) -> void:
 		get_parent().logic_connect(currConnection, toCon);
 		toCon = null;
 		currConnection = null;
+
+func _input(event):
+	if event is InputEventMouseButton and event.pressed and event.button_index == 1: # Left mouse click
+		var space = get_world_2d().direct_space_state
+		var mousePos = get_global_mouse_position()
+		var query = PhysicsPointQueryParameters2D.new()
+		query.position = mousePos;
+		query.collide_with_areas = true;
+		var result = space.intersect_point(query);
+		if (result.size() != 0 and result[0]["collider"].get_name() == "corkDrag"):
+			actionable = true;
+			if (result.size() == 1):
+				for i in get_children():
+					i.makeUpDrag = false; # so the photos dont freeze up
+				ogMouse = position - get_global_mouse_position();
+				dragging = true;
+	if Input.is_action_just_released("left_click"):
+		if dragging:
+			dragging = false;
+
+var scalar = 0.25
+# zoom in and out code
+func _unhandled_input(event: InputEvent) -> void:
+	if false: # decided not to do zoom for now...x # one alternative would be to have a viewport to another portion and zoom in and out the camera!
+		if get_parent().visible: # so only able to scale if parent is awake...
+			if event is InputEventMouseButton:
+				if event.button_index == MOUSE_BUTTON_WHEEL_UP:
+					print("implement me");
+			if event is InputEventPanGesture:
+				#print(event.delta)
+				if event.delta.y > 0:
+					scale *= 1+(scalar*abs(event.delta.y));
+				if event.delta.y < 0:
+					scale /= 1+(scalar*abs(event.delta.y));
+
+
+func _on_cork_drag_mouse_entered() -> void:
+	actionable = true;
+
+
+func _on_cork_drag_mouse_exited() -> void:
+	actionable = false;
+
+
+
+func _on_notesmanager_mouse_exited() -> void:
+	overNotes = false;
+
+func _on_notesmanager_mouse_entered() -> void:
+	overNotes = true;

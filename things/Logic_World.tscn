@@ -1,10 +1,16 @@
-[gd_scene load_steps=6 format=3 uid="uid://cmc0nmyitt0xs"]
+[gd_scene load_steps=8 format=3 uid="uid://cmc0nmyitt0xs"]
 
 [ext_resource type="Texture2D" uid="uid://knqsiaufjjiq" path="res://Assets/Board.jpg" id="1_dbjvr"]
 [ext_resource type="Script" uid="uid://bomrsu4sba6q0" path="res://Scripts/cork_board.gd" id="1_htk6s"]
 [ext_resource type="Script" uid="uid://cir73cbhb7dy8" path="res://Scripts/photos_manager.gd" id="3_2qvkj"]
 [ext_resource type="Texture2D" uid="uid://b1o3px5kuvlnj" path="res://Assets/Page.jpg" id="4_t4nec"]
 [ext_resource type="Script" uid="uid://cp2ry2clsbkn6" path="res://Scripts/Notes_Manager.gd" id="5_kn7jk"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kn7jk"]
+size = Vector2(889.3252, 595.12756)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2k0tm"]
+size = Vector2(769.0285, 997.63086)
 
 [node name="LogicWorld" type="Node2D"]
 script = ExtResource("1_htk6s")
@@ -14,11 +20,24 @@ scale = Vector2(0.855705, 0.887205)
 texture = ExtResource("1_dbjvr")
 offset = Vector2(447, 297)
 
+[node name="corkDrag" type="Area2D" parent="CorkBoard"]
+
+[node name="corkDrag" type="CollisionShape2D" parent="CorkBoard/corkDrag"]
+position = Vector2(448.16846, 296.43665)
+shape = SubResource("RectangleShape2D_kn7jk")
+
 [node name="Notes_Manager" type="Sprite2D" parent="."]
+top_level = true
 position = Vector2(964, 258)
 scale = Vector2(0.452519, 0.428014)
 texture = ExtResource("4_t4nec")
 script = ExtResource("5_kn7jk")
+
+[node name="Ingorer" type="Area2D" parent="Notes_Manager" groups=["ignore"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Notes_Manager/Ingorer"]
+position = Vector2(0, 3.5045776)
+shape = SubResource("RectangleShape2D_2k0tm")
 
 [node name="PhotosManager" type="Node2D" parent="."]
 script = ExtResource("3_2qvkj")
@@ -34,5 +53,11 @@ Picture"
 
 [node name="YarnHolder" type="Node2D" parent="."]
 
+[connection signal="mouse_entered" from="CorkBoard/corkDrag" to="PhotosManager" method="_on_cork_drag_mouse_entered"]
+[connection signal="mouse_exited" from="CorkBoard/corkDrag" to="PhotosManager" method="_on_cork_drag_mouse_exited"]
+[connection signal="mouse_entered" from="Notes_Manager/Ingorer" to="Notes_Manager" method="_on_notesmanager_mouse_entered"]
+[connection signal="mouse_entered" from="Notes_Manager/Ingorer" to="PhotosManager" method="_on_notesmanager_mouse_entered"]
+[connection signal="mouse_exited" from="Notes_Manager/Ingorer" to="Notes_Manager" method="_on_notesmanager_mouse_exited"]
+[connection signal="mouse_exited" from="Notes_Manager/Ingorer" to="PhotosManager" method="_on_notesmanager_mouse_exited"]
 [connection signal="pressed" from="SpawnPicture" to="." method="_on_spawn_picture_pressed"]
 [connection signal="pressed" from="SpawnPicture" to="CorkBoard" method="_on_spawn_picture_pressed"]

@@ -19,3 +19,7 @@ mono_crash.*.json
 
 # visual studio code setup (diff for versions)
 .vsCode/
+
+/shaders
+/importedAssets
+/productionScenes
