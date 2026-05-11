@@ -35,8 +35,14 @@ func is_focused():
 
 # logic.add_pic(camView.get_collider(), img);
 func add_pic(obj, img):
+	var nameID = "null"
 	var myPhoto = PHOTO.instantiate();
-	var nameID = obj.get_groups()[-1]
+	var currID = obj.get_groups();
+	for thisVal in currID: # basically if its not one of these groups, then its a name group....
+		if thisVal not in ["2Dobj", "ignore", "obj", "npc"]: # if ignore drop the pic!
+			nameID = thisVal;
+			break # should just need the 1 name
+	#var nameID = obj.get_groups()[-1]
 	if nameID in photoIDs: # only 1 photo of an object
 		return
 	# make sure photos not already in use?

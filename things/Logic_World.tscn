@@ -13,6 +13,7 @@ size = Vector2(889.3252, 595.12756)
 size = Vector2(769.0285, 997.63086)
 
 [node name="LogicWorld" type="Node2D"]
+visible = false
 script = ExtResource("1_htk6s")
 
 [node name="CorkBoard" type="Sprite2D" parent="."]

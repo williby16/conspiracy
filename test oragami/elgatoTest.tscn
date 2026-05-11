@@ -1,0 +1,27 @@
+[gd_scene load_steps=7 format=3 uid="uid://280aqjk1sjrd"]
+
+[ext_resource type="PackedScene" uid="uid://do8trd0dwc1sk" path="res://test oragami/oragamiPerson.tscn" id="1_3a0tk"]
+[ext_resource type="Texture2D" uid="uid://de1do5lhsihtn" path="res://test oragami/facess.png" id="2_o2hee"]
+[ext_resource type="Texture2D" uid="uid://b67b1ytmqmgrj" path="res://test oragami/side1.png" id="3_0h0b2"]
+[ext_resource type="Texture2D" uid="uid://y0p1ayaj38rd" path="res://test oragami/Screenshot 2026-05-11 at 4.40.19 PM.png" id="4_v43xw"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cpqmn"]
+albedo_texture = ExtResource("2_o2hee")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ix642"]
+albedo_texture = ExtResource("4_v43xw")
+
+[node name="Node3D" type="Node3D"]
+
+[node name="baseBody" parent="." instance=ExtResource("1_3a0tk")]
+
+[node name="CSGBox3D" parent="baseBody/Head/faceplate_front" index="0"]
+material = SubResource("StandardMaterial3D_cpqmn")
+
+[node name="Headside1" parent="baseBody/Head" index="3"]
+myTexture = ExtResource("3_0h0b2")
+
+[node name="CSGBox3D" parent="baseBody/Body/bodyFront" index="0"]
+material = SubResource("StandardMaterial3D_ix642")
+
+[editable path="baseBody"]

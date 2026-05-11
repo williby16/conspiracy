@@ -1,0 +1,60 @@
+[gd_scene load_steps=8 format=3 uid="uid://cuomb4psavsan"]
+
+[ext_resource type="Script" uid="uid://bn06lp34tgfpw" path="res://things/player_movement.gd" id="1_ctq6p"]
+[ext_resource type="Shader" uid="uid://dkcgipb4d1wwl" path="res://shaders/scribble2.gdshader" id="2_a6ck7"]
+[ext_resource type="Texture2D" uid="uid://bduflgmqd3hs7" path="res://Assets/227px-Bendy.png" id="3_nbvwm"]
+[ext_resource type="ArrayMesh" uid="uid://cnychuqnpg4vb" path="res://importedAssets/icons/SM_Icon_Add_01.obj" id="4_a6ck7"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_d4p51"]
+flip_faces = true
+size = Vector2(2, 2)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_l6ags"]
+render_priority = 0
+shader = ExtResource("2_a6ck7")
+shader_parameter/edge_color = Color(0, 0, 0, 1)
+shader_parameter/edge_threshold = 0.01
+shader_parameter/noise_frequency = 10.0
+shader_parameter/noise_offset_intensity = 0.002
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_waan7"]
+size = Vector3(0.227, 0.374, 0)
+
+[node name="player" type="CharacterBody3D"]
+script = ExtResource("1_ctq6p")
+
+[node name="CameraPivot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.6964643, 0)
+
+[node name="HeadPivot" type="Node3D" parent="CameraPivot"]
+transform = Transform3D(1, 0, 0, 0, 0.9487768, 0.31594715, 0, -0.31594715, 0.9487768, 0, 0.8, 0)
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot/HeadPivot"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="CameraPivot/HeadPivot/Camera3D"]
+
+[node name="CameraFocus" type="RayCast3D" parent="CameraPivot/HeadPivot/Camera3D"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+collision_mask = 2
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="shaderMesh" type="MeshInstance3D" parent="CameraPivot/HeadPivot/Camera3D"]
+extra_cull_margin = 16384.0
+mesh = SubResource("QuadMesh_d4p51")
+surface_material_override/0 = SubResource("ShaderMaterial_l6ags")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_waan7")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
+visible = false
+texture = ExtResource("3_nbvwm")
+
+[node name="CameraScreen" type="Node2D" parent="."]
+
+[node name="Reticle" type="MeshInstance2D" parent="CameraScreen"]
+position = Vector2(576, 324)
+scale = Vector2(25, 25)
+mesh = ExtResource("4_a6ck7")

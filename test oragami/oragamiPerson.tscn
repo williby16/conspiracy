@@ -1,0 +1,333 @@
+[gd_scene load_steps=7 format=3 uid="uid://do8trd0dwc1sk"]
+
+[ext_resource type="Script" uid="uid://dxtmm8rdngs4n" path="res://test oragami/headSideFill.gd" id="1_es01q"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_pusea"]
+size = Vector2(0.5, 0.5)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_4llkk"]
+size = Vector2(1.125, 0.5)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_es01q"]
+size = Vector2(1, 0.5)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_uqumd"]
+size = Vector2(0.65, 0.5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_xqv7l"]
+size = Vector3(0.25, 0.75, 0.25)
+
+[node name="baseBody" type="Node3D"]
+
+[node name="Head" type="Node3D" parent="."]
+
+[node name="faceplate_front" type="CSGCombiner3D" parent="Head"]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Head/faceplate_front"]
+size = Vector3(1, 1, 0.001)
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="Head/faceplate_front"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+operation = 1
+radius = 0.6
+height = 0.01
+
+[node name="faceplate_back" type="CSGCombiner3D" parent="Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Head/faceplate_back"]
+size = Vector3(1, 1, 0.001)
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="Head/faceplate_back"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+operation = 1
+radius = 0.6
+height = 0.01
+
+[node name="topHead" type="MeshInstance3D" parent="Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.25)
+mesh = SubResource("PlaneMesh_pusea")
+skeleton = NodePath("../..")
+
+[node name="Headside1" type="Node3D" parent="Head"]
+script = ExtResource("1_es01q")
+
+[node name="sideA1" type="CSGCombiner3D" parent="Head/Headside1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.25)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Head/Headside1/sideA1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.016652346, 0, 0)
+size = Vector3(1, 1, 0.5)
+
+[node name="sideA1" type="CSGBox3D" parent="Head/Headside1/sideA1"]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0.5, 0, 0)
+operation = 1
+size = Vector3(0.5, 1, 0.001)
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="Head/Headside1/sideA1"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+operation = 1
+radius = 0.6
+height = 0.5
+
+[node name="sideA2" type="CSGCombiner3D" parent="Head/Headside1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.25)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Head/Headside1/sideA2"]
+size = Vector3(1, 1, 0.5)
+
+[node name="sideA2" type="CSGBox3D" parent="Head/Headside1/sideA2"]
+transform = Transform3D(-4.371139e-08, 0.38268346, -0.92387944, 0, -0.92387944, -0.38268346, -1, -1.6727626e-08, 4.038405e-08, 0.57977164, 0.044, 0)
+operation = 1
+size = Vector3(0.5, 1, 0.001)
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="Head/Headside1/sideA2"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+operation = 1
+radius = 0.6
+height = 0.5
+
+[node name="sideA3" type="CSGCombiner3D" parent="Head/Headside1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.25)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Head/Headside1/sideA3"]
+size = Vector3(1, 1, 0.5)
+
+[node name="sideA3" type="CSGBox3D" parent="Head/Headside1/sideA3"]
+transform = Transform3D(-3.7056722e-08, 0.9238794, -0.38268337, 3.3455247e-08, -0.38268337, -0.9238794, -1, -4.7038714e-08, -1.6727622e-08, 0.7082554, 0.30458486, 0)
+operation = 1
+size = Vector3(0.5, 1, 0.001)
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="Head/Headside1/sideA3"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+operation = 1
+radius = 0.6
+height = 0.5
+
+[node name="sideA4" type="CSGCombiner3D" parent="Head/Headside1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.25)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Head/Headside1/sideA4"]
+size = Vector3(1, 1, 0.5)
+
+[node name="sideA4" type="CSGBox3D" parent="Head/Headside1/sideA4"]
+transform = Transform3D(1.0256137e-08, -0.38268343, -0.92387944, -8.076811e-08, -0.92387944, 0.38268343, -1, 7.0695144e-08, -4.038405e-08, 0.58, -0.044, 0)
+operation = 1
+size = Vector3(0.5, 1, 0.001)
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="Head/Headside1/sideA4"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+operation = 1
+radius = 0.6
+height = 0.5
+
+[node name="sideA5" type="CSGCombiner3D" parent="Head/Headside1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.25)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Head/Headside1/sideA5"]
+size = Vector3(1, 1, 0.5)
+
+[node name="sideA5" type="CSGBox3D" parent="Head/Headside1/sideA5"]
+transform = Transform3D(-3.7056722e-08, -0.9238793, -0.38268337, -3.3455247e-08, -0.38268337, 0.9238793, -1, 4.7038714e-08, -1.672762e-08, 0.708, -0.305, 0)
+operation = 1
+size = Vector3(0.5, 1, 0.001)
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="Head/Headside1/sideA5"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+operation = 1
+radius = 0.6
+height = 0.5
+
+[node name="Headside2" type="Node3D" parent="Head"]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, -0.5)
+script = ExtResource("1_es01q")
+
+[node name="sideA1" type="CSGCombiner3D" parent="Head/Headside2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.25)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Head/Headside2/sideA1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.016652346, 0, 0)
+size = Vector3(1, 1, 0.5)
+
+[node name="sideA1" type="CSGBox3D" parent="Head/Headside2/sideA1"]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0.5, 0, 0)
+operation = 1
+size = Vector3(0.5, 1, 0.001)
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="Head/Headside2/sideA1"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+operation = 1
+radius = 0.6
+height = 0.5
+
+[node name="sideA2" type="CSGCombiner3D" parent="Head/Headside2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.25)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Head/Headside2/sideA2"]
+size = Vector3(1, 1, 0.5)
+
+[node name="sideA2" type="CSGBox3D" parent="Head/Headside2/sideA2"]
+transform = Transform3D(-4.371139e-08, 0.38268346, -0.92387944, 0, -0.92387944, -0.38268346, -1, -1.6727626e-08, 4.038405e-08, 0.57977164, 0.044, 0)
+operation = 1
+size = Vector3(0.5, 1, 0.001)
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="Head/Headside2/sideA2"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+operation = 1
+radius = 0.6
+height = 0.5
+
+[node name="sideA3" type="CSGCombiner3D" parent="Head/Headside2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.25)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Head/Headside2/sideA3"]
+size = Vector3(1, 1, 0.5)
+
+[node name="sideA3" type="CSGBox3D" parent="Head/Headside2/sideA3"]
+transform = Transform3D(-3.7056722e-08, 0.9238794, -0.38268337, 3.3455247e-08, -0.38268337, -0.9238794, -1, -4.7038714e-08, -1.6727622e-08, 0.7082554, 0.30458486, 0)
+operation = 1
+size = Vector3(0.5, 1, 0.001)
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="Head/Headside2/sideA3"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+operation = 1
+radius = 0.6
+height = 0.5
+
+[node name="sideA4" type="CSGCombiner3D" parent="Head/Headside2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.25)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Head/Headside2/sideA4"]
+size = Vector3(1, 1, 0.5)
+
+[node name="sideA4" type="CSGBox3D" parent="Head/Headside2/sideA4"]
+transform = Transform3D(1.0256137e-08, -0.38268343, -0.92387944, -8.076811e-08, -0.92387944, 0.38268343, -1, 7.0695144e-08, -4.038405e-08, 0.58, -0.044, 0)
+operation = 1
+size = Vector3(0.5, 1, 0.001)
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="Head/Headside2/sideA4"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+operation = 1
+radius = 0.6
+height = 0.5
+
+[node name="sideA5" type="CSGCombiner3D" parent="Head/Headside2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.25)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Head/Headside2/sideA5"]
+size = Vector3(1, 1, 0.5)
+
+[node name="sideA5" type="CSGBox3D" parent="Head/Headside2/sideA5"]
+transform = Transform3D(-3.7056722e-08, -0.9238793, -0.38268337, -3.3455247e-08, -0.38268337, 0.9238793, -1, 4.7038714e-08, -1.672762e-08, 0.708, -0.305, 0)
+operation = 1
+size = Vector3(0.5, 1, 0.001)
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="Head/Headside2/sideA5"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+operation = 1
+radius = 0.6
+height = 0.5
+
+[node name="Body" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.5, 0)
+
+[node name="bodyFront" type="CSGCombiner3D" parent="Body"]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Body/bodyFront"]
+size = Vector3(1, 2, 0.001)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Body/bodyFront"]
+transform = Transform3D(0.96944535, -0.24530739, 0, 0.24530739, 0.96944535, 0, 0, 0, 1, 1, 0, 0)
+operation = 2
+size = Vector3(1, 3, 1)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="Body/bodyFront"]
+transform = Transform3D(0.96944535, 0.24530739, 0, -0.24530739, 0.96944535, 0, 0, 0, 1, -1, 0, 0)
+operation = 2
+size = Vector3(1, 3, 1)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="Body/bodyFront"]
+transform = Transform3D(0.99254614, -0.12186935, 0, -0.12186935, -0.99254614, 8.742278e-08, -1.0654157e-08, -8.677114e-08, -1, 1, 0, 0)
+operation = 2
+size = Vector3(1, 3, 1)
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="Body/bodyFront"]
+transform = Transform3D(-0.99254614, 0.12186928, 0, -0.12186928, -0.99254614, 0, 0, 0, 1, -1, 0, 0)
+operation = 2
+size = Vector3(1, 3, 1)
+
+[node name="legGap" type="CSGPolygon3D" parent="Body/bodyFront"]
+transform = Transform3D(-0.70710677, 0.70710677, 0, -0.70710677, -0.70710677, 0, 0, 0, 1.5, 0, -1.4323716, 0.5)
+operation = 2
+polygon = PackedVector2Array(1, 0, -0.75, -0.75, 0, 1)
+
+[node name="bodyBack" type="CSGCombiner3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Body/bodyBack"]
+size = Vector3(1, 2, 0.001)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Body/bodyBack"]
+transform = Transform3D(0.96944535, -0.24530739, 0, 0.24530739, 0.96944535, 0, 0, 0, 1, 1, 0, 0)
+operation = 2
+size = Vector3(1, 3, 1)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="Body/bodyBack"]
+transform = Transform3D(0.96944535, 0.24530739, 0, -0.24530739, 0.96944535, 0, 0, 0, 1, -1, 0, 0)
+operation = 2
+size = Vector3(1, 3, 1)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="Body/bodyBack"]
+transform = Transform3D(0.99254614, -0.12186935, 0, -0.12186935, -0.99254614, 8.742278e-08, -1.0654157e-08, -8.677114e-08, -1, 1, 0, 0)
+operation = 2
+size = Vector3(1, 3, 1)
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="Body/bodyBack"]
+transform = Transform3D(-0.99254614, 0.12186928, 0, -0.12186928, -0.99254614, 0, 0, 0, 1, -1, 0, 0)
+operation = 2
+size = Vector3(1, 3, 1)
+
+[node name="legGap" type="CSGPolygon3D" parent="Body/bodyBack"]
+transform = Transform3D(-0.70710677, 0.70710677, 0, -0.70710677, -0.70710677, 0, 0, 0, 1.5, 0, -1.4323716, 0.5)
+operation = 2
+polygon = PackedVector2Array(1, 0, -0.75, -0.75, 0, 1)
+
+[node name="side1" type="MeshInstance3D" parent="Body"]
+transform = Transform3D(0.24530742, 0.96944535, 0, -0.96944535, 0.24530742, 0, 0, 0, 1, 0.35755676, 0.5, -0.25)
+mesh = SubResource("PlaneMesh_4llkk")
+
+[node name="side2" type="MeshInstance3D" parent="Body"]
+transform = Transform3D(0.24530742, -0.96944535, 0, 0.96944535, 0.24530742, 0, 0, 0, 1, -0.358, 0.5, -0.25)
+mesh = SubResource("PlaneMesh_4llkk")
+
+[node name="side3" type="MeshInstance3D" parent="Body"]
+transform = Transform3D(-0.12186912, 0.9925462, 0, -0.9925462, -0.12186912, 0, 0, 0, 1, 0.43190375, -0.5, -0.25)
+mesh = SubResource("PlaneMesh_es01q")
+
+[node name="side4" type="MeshInstance3D" parent="Body"]
+transform = Transform3D(-0.12186929, -0.99254614, 0, 0.99254614, -0.12186929, 0, 0, 0, 1, -0.435, -0.5, -0.25)
+mesh = SubResource("PlaneMesh_es01q")
+
+[node name="LegSide1" type="MeshInstance3D" parent="Body"]
+transform = Transform3D(-0.37136778, -0.9284859, 0, 0.9284859, -0.37136778, 0, 0, 0, 1, 0.12888965, -0.69431543, -0.25)
+mesh = SubResource("PlaneMesh_uqumd")
+
+[node name="LegSide2" type="MeshInstance3D" parent="Body"]
+transform = Transform3D(-0.3713678, 0.9284858, 0, -0.9284858, -0.3713678, 0, 0, 0, 1, -0.129, -0.694, -0.25)
+mesh = SubResource("PlaneMesh_uqumd")
+
+[node name="Arm" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Arm"]
+transform = Transform3D(0.63950616, -0.7687861, 0, 0.7687861, 0.63950616, 0, 0, 0, 1, 0.46646857, -0.9465776, -0.2475453)
+mesh = SubResource("BoxMesh_xqv7l")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Arm"]
+transform = Transform3D(0.6401097, 0.7682835, 0, -0.7682835, 0.6401097, 0, 0, 0, 1, -0.466, -0.947, -0.248)
+mesh = SubResource("BoxMesh_xqv7l")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.6378005, 0, 0.7702017, 0, 1, 0, -0.7702017, 0, 0.6378005, 1.1170114, -0.4502995, 1.2794299)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.84342897, 0, 0.53724074, 0, 1, 0, -0.53724074, 0, 0.84342897, 0, 0, 0)

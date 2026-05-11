@@ -47,11 +47,17 @@ func run_conversation(convo): # should just have a list as input
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	var nameID = "null";
 	# moved from load_conversation, so we only do it once...
 	var file = FileAccess.open("res://things/dialouge_tree.json", FileAccess.READ)
 	var content = file.get_as_text()
 	myJSON = JSON.parse_string(content)
-	myJSON = myJSON[personObj.get_groups()[2]] # magic num should group for persons name
+	for thisVal in personObj.get_groups(): # basically if its not one of these groups, then its a name group....
+		if thisVal not in ["2Dobj", "ignore", "obj", "npc"]: # if ignore drop the pic!
+			nameID = thisVal;
+			break # should just need the 1 name
+	myJSON = myJSON[nameID];
+	#myJSON = myJSON[personObj.get_groups()[2]] # magic num should group for persons name
 	# idk why but it breaks if I dont return and set conversation
 	conversation = load_conversation("a")
 
